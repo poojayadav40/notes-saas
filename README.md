@@ -1,4 +1,3 @@
-o.
 
 📝 Multi-Tenant Notes SaaS
 

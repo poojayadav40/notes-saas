@@ -66,4 +66,4 @@ Open http://localhost:3000/login
 - Styling (currently minimal HTML)
 
 
-
+Note:- node module is not being uploaded because github 100 mb limitation. so please run command after download-  npm i

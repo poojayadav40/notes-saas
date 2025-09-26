@@ -1,8 +1,1 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/api/notes": "pages/api/notes.js",
-  "/login": "pages/login.js"
-}
+{"/api/auth/login":"pages/api/auth/login.js","/_error":"pages/_error.js","/api/health":"pages/api/health.js","/api/hello":"pages/api/hello.js","/api/notes":"pages/api/notes.js","/_document":"pages/_document.js","/_app":"pages/_app.js","/":"pages/index.html","/api/notes/[id]":"pages/api/notes/[id].js","/api/seed":"pages/api/seed.js","/login":"pages/login.html","/api/tenants/[slug]/upgrade":"pages/api/tenants/[slug]/upgrade.js","/404":"pages/404.html"}

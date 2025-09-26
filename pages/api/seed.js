@@ -1,33 +1,36 @@
-import db from "../../lib/db";
-import { User } from "../../lib/models";
+import dbConnect from "../../lib/db";
+import { User, Tenant } from "../../lib/models";
 import bcrypt from "bcryptjs";
 
 export default async function handler(req, res) {
-  if (
-    req.method !== "POST" &&
-    !(req.method === "GET" && req.query.secret === "myseedsecret123")
-  ) {
-    return res.status(405).end();
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  try {
-    await db.connect();
-
-    // ✅ clear old users
-    await User.deleteMany({});
-
-    const hashed = await bcrypt.hash("password", 10);
-
-    await User.insertMany([
-      { email: "admin@acme.test", password: hashed, role: "Admin", tenant: "acme" },
-      { email: "user@acme.test", password: hashed, role: "Member", tenant: "acme" },
-      { email: "admin@globex.test", password: hashed, role: "Admin", tenant: "globex" },
-      { email: "user@globex.test", password: hashed, role: "Member", tenant: "globex" },
-    ]);
-
-    res.json({ ok: true });
-  } catch (err) {
-    console.error("Seed error:", err);
-    res.status(500).json({ error: err.message || "Seeding failed" });
+  if (req.headers["x-seed-secret"] !== process.env.SEED_SECRET) {
+    return res.status(403).json({ error: "Forbidden" });
   }
+
+  await dbConnect();
+
+  await Tenant.deleteMany({});
+  await User.deleteMany({});
+
+  const tenants = [
+    { name: "Acme", slug: "acme", plan: "Free" },
+    { name: "Globex", slug: "globex", plan: "Free" },
+  ];
+  const createdTenants = await Tenant.insertMany(tenants);
+
+  const passwordHash = await bcrypt.hash("password", 10);
+
+  const users = [
+    { email: "admin@acme.test", role: "Admin", tenant: createdTenants[0]._id, passwordHash },
+    { email: "user@acme.test", role: "Member", tenant: createdTenants[0]._id, passwordHash },
+    { email: "admin@globex.test", role: "Admin", tenant: createdTenants[1]._id, passwordHash },
+    { email: "user@globex.test", role: "Member", tenant: createdTenants[1]._id, passwordHash },
+  ];
+  await User.insertMany(users);
+
+  res.json({ ok: true });
 }

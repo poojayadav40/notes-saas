@@ -41,6 +41,7 @@ MongoDB connected successfully ✅
 
 VERCEL SCREENSHOT
 
+<img width="1920" height="1080" alt="Screenshot (178)" src="https://github.com/user-attachments/assets/a3caa6ac-6509-4c57-94ab-a4c553e1d732" />
 
 <img width="1920" height="1080" alt="Screenshot (177)" src="https://github.com/user-attachments/assets/e9823677-809f-4b79-bc68-a7ebcd96ae2e" />
 
